@@ -13,6 +13,16 @@ const sentimentConfig = {
   neutral: { label: "中性", className: "bg-gray-100 text-gray-700" },
 } as const;
 
+const publishedAtFormatter = new Intl.DateTimeFormat("zh-TW", {
+  timeZone: "Asia/Taipei",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+});
+
 export default function ArticleCard({ article }: ArticleCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const sentiment = sentimentConfig[article.sentiment] ?? sentimentConfig.neutral;
@@ -28,7 +38,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
         <div className="flex-1">
           <h3 className="font-semibold text-gray-900 leading-snug">{article.title}</h3>
           <p className="text-sm text-gray-500 mt-1">
-            {article.source} ｜ {new Date(article.published_at).toLocaleString("zh-TW")}
+            {article.source} ｜ {publishedAtFormatter.format(new Date(article.published_at))}
           </p>
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
